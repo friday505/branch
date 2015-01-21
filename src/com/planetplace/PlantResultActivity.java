@@ -77,5 +77,6 @@ public class PlantResultActivity extends ListActivity {
 		// Finish this Intent
 		finish();
 	}
+	
 
 }

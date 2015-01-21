@@ -2,11 +2,13 @@ package com.planetplace;
 
 import android.app.Activity;
 import android.content.Intent;
+import android.graphics.Bitmap;
 import android.os.Bundle;
 import android.view.Menu;
 import android.view.MenuItem;
 import android.view.View;
 import android.widget.EditText;
+import android.widget.ImageView;
 import android.widget.TextView;
 
 import com.plant.abc.Plant;
@@ -15,6 +17,9 @@ public class GPSAPlanetActivity extends Activity {
 
 	EditText description;
 	TextView txtSelectedPlant;
+	public final static int CAREA_RESULT = 5;
+	public Bitmap plantImage;
+	private ImageView imgPlant;
 
 	@Override
 	protected void onCreate(Bundle savedInstanceState) {
@@ -22,6 +27,9 @@ public class GPSAPlanetActivity extends Activity {
 		setContentView(R.layout.activity_gps_plants);
 		description = (EditText) findViewById(R.id.etDescription);
 		txtSelectedPlant = (TextView) findViewById(R.id.tvSelectedPlant);
+		
+		//get a references to the image view that will display a plant photot.
+		imgPlant = (ImageView) findViewById(R.id.imgPlant);
 
 	}
 
@@ -66,7 +74,22 @@ public class GPSAPlanetActivity extends Activity {
 
 			// set this plant in the TextView on the UI
 			txtSelectedPlant.setText(plant.toString());
+		}else if(requestCode == CAREA_RESULT){
+			//we are here because we received result from the camera
+			plantImage = (Bitmap) data.getExtras().get("data");
+			
+			imgPlant.setImageBitmap(plantImage);
 		}
+	}
+	
+	public void onTakePhotoClicked(View v){
+		// use an implicit intent to invoke the camera
+		Intent cameraIntent = new Intent(android.provider.MediaStore.ACTION_IMAGE_CAPTURE);
+		
+		//start this intent, and antipcipate a result.
+		startActivityForResult(cameraIntent, CAREA_RESULT);
+		
+		
 	}
 
 }
