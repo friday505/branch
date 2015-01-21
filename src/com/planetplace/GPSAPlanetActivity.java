@@ -1,24 +1,28 @@
 package com.planetplace;
 
+import android.app.Activity;
 import android.content.Intent;
 import android.os.Bundle;
-import android.support.v7.app.ActionBarActivity;
 import android.view.Menu;
 import android.view.MenuItem;
 import android.view.View;
 import android.widget.EditText;
+import android.widget.TextView;
 
-public class GPSAPlanetActivity extends ActionBarActivity {
-	
+import com.plant.abc.Plant;
+
+public class GPSAPlanetActivity extends Activity {
+
 	EditText description;
-	
+	TextView txtSelectedPlant;
 
 	@Override
 	protected void onCreate(Bundle savedInstanceState) {
 		super.onCreate(savedInstanceState);
 		setContentView(R.layout.activity_gps_plants);
 		description = (EditText) findViewById(R.id.etDescription);
-		
+		txtSelectedPlant = (TextView) findViewById(R.id.tvSelectedPlant);
+
 	}
 
 	@Override
@@ -39,12 +43,30 @@ public class GPSAPlanetActivity extends ActionBarActivity {
 		}
 		return super.onOptionsItemSelected(item);
 	}
-	
-	public void searchClicked(View v){
+
+	public void searchClicked(View v) {
 		Intent searchIntent = new Intent(this, AdvancedSearchActivity.class);
-		
-		startActivity(searchIntent);
+
+		startActivityForResult(searchIntent,
+				AdvancedSearchActivity.PLANT_RESULTS);
+
 	}
-	
+
+	@Override
+	protected void onActivityResult(int requestCode, int resultCode, Intent data) {
+		// TODO Auto-generated method stub
+		super.onActivityResult(requestCode, resultCode, data);
+		if (requestCode == AdvancedSearchActivity.PLANT_RESULTS) {
+			// change the label of the text view to be the plant that was passed
+			// in
+
+			// store the plant as an attribute
+			Plant plant = (Plant) data
+					.getSerializableExtra(PlantResultActivity.PLANT_RESULT);
+
+			// set this plant in the TextView on the UI
+			txtSelectedPlant.setText(plant.toString());
+		}
+	}
 
 }

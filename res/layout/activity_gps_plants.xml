@@ -81,4 +81,19 @@
         android:onClick="searchClicked"
         android:text="select a Planet" />
 
+    <TextView
+        android:id="@+id/textView5"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_below="@+id/textView4"
+        android:text="Selected Plant" />
+
+    <TextView
+        android:id="@+id/tvSelectedPlant"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_alignLeft="@+id/tvLong"
+        android:layout_below="@+id/tvLong"
+        android:text="TextView" />
+
 </RelativeLayout>

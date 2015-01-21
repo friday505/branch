@@ -7,17 +7,22 @@ import com.plant.abc.Plant;
 import android.app.ListActivity;
 import android.database.CursorJoiner.Result;
 import android.os.Bundle;
+import android.view.View;
 import android.widget.ArrayAdapter;
+import android.widget.ListView;
 
 public class PlantResultActivity extends ListActivity {
+
+	public static final String PLANT_RESULT = "PLANT_RESULT";
 
 	@Override
 	protected void onCreate(Bundle savedInstanceState) {
 		// TODO Auto-generated method stub
 		super.onCreate(savedInstanceState);
 
-		// retrivies any data that was passed in
-		String searchTerm = getIntent().getStringExtra("SEARCH_PLANT_NAME");
+		// retrivies any data that was passed in AutoCompleteTextView
+		String searchTerm = getIntent().getStringExtra(
+				AdvancedSearchActivity.SEARCH_PLANT_NAME);
 
 		// create a collection to hold the plants
 		ArrayList<Plant> allPlants = new ArrayList<Plant>();
@@ -39,10 +44,10 @@ public class PlantResultActivity extends ListActivity {
 			pawpaw.setSpecies("trilloba");
 			allPlants.add(pawpaw);
 		}
-		
-		if(allPlants.size() == 0){
+
+		if (allPlants.size() == 0) {
 			Plant empty = new Plant();
-			empty.setCommon("No plants match your Result. Please try again" );
+			empty.setCommon("No plants match your Result. Please try again");
 			allPlants.add(empty);
 		}
 
@@ -53,6 +58,24 @@ public class PlantResultActivity extends ListActivity {
 
 		setListAdapter(plantAdapter);
 
+	}
+
+	@Override
+	protected void onListItemClick(ListView l, View v, int position, long id) {
+		// TODO Auto-generated method stub
+		super.onListItemClick(l, v, position, id);
+
+		// get the item that the user clicked
+		Plant plant = (Plant) getListAdapter().getItem(position);
+
+		//put the plant in the intent which we are about to return
+		getIntent().putExtra(PLANT_RESULT, plant);
+		
+		// EveryThing went fine
+		setResult(RESULT_OK, getIntent());
+
+		// Finish this Intent
+		finish();
 	}
 
 }

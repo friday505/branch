@@ -3,7 +3,9 @@
 
 package com.plant.abc;
 
-public class Plant {
+import java.io.Serializable;
+
+public class Plant implements Serializable {
 
 	private String genus;
 	private String species;
