@@ -3,6 +3,7 @@ package com.planetplace;
 import android.app.Activity;
 import android.content.Intent;
 import android.graphics.Bitmap;
+import android.location.LocationManager;
 import android.os.Bundle;
 import android.view.Menu;
 import android.view.MenuItem;
@@ -20,6 +21,7 @@ public class GPSAPlanetActivity extends Activity {
 	public final static int CAREA_RESULT = 5;
 	public Bitmap plantImage;
 	private ImageView imgPlant;
+	private LocationManager LocationManager;
 
 	@Override
 	protected void onCreate(Bundle savedInstanceState) {
@@ -27,9 +29,12 @@ public class GPSAPlanetActivity extends Activity {
 		setContentView(R.layout.activity_gps_plants);
 		description = (EditText) findViewById(R.id.etDescription);
 		txtSelectedPlant = (TextView) findViewById(R.id.tvSelectedPlant);
-		
-		//get a references to the image view that will display a plant photot.
+
+		// get a references to the image view that will display a plant photot.
 		imgPlant = (ImageView) findViewById(R.id.imgPlant);
+		
+		//get the LocationManager as a system service.  Save it into a field
+		 LocationManager = (android.location.LocationManager) getSystemService(LOCATION_SERVICE);
 
 	}
 
@@ -64,32 +69,55 @@ public class GPSAPlanetActivity extends Activity {
 	protected void onActivityResult(int requestCode, int resultCode, Intent data) {
 		// TODO Auto-generated method stub
 		super.onActivityResult(requestCode, resultCode, data);
-		if (requestCode == AdvancedSearchActivity.PLANT_RESULTS) {
-			// change the label of the text view to be the plant that was passed
-			// in
+		if (resultCode == RESULT_OK) {
 
-			// store the plant as an attribute
-			Plant plant = (Plant) data
-					.getSerializableExtra(PlantResultActivity.PLANT_RESULT);
+			if (requestCode == AdvancedSearchActivity.PLANT_RESULTS) {
+				// change the label of the text view to be the plant that was
+				// passed
+				// in
 
-			// set this plant in the TextView on the UI
-			txtSelectedPlant.setText(plant.toString());
-		}else if(requestCode == CAREA_RESULT){
-			//we are here because we received result from the camera
-			plantImage = (Bitmap) data.getExtras().get("data");
-			
-			imgPlant.setImageBitmap(plantImage);
+				// store the plant as an attribute
+				Plant plant = (Plant) data
+						.getSerializableExtra(PlantResultActivity.PLANT_RESULT);
+
+				// set this plant in the TextView on the UI
+				txtSelectedPlant.setText(plant.toString());
+			} else if (requestCode == CAREA_RESULT) {
+				// we are here because we received result from the camera
+				plantImage = (Bitmap) data.getExtras().get("data");
+
+				imgPlant.setImageBitmap(plantImage);
+			}
 		}
 	}
-	
-	public void onTakePhotoClicked(View v){
+
+	public void onTakePhotoClicked(View v) {
 		// use an implicit intent to invoke the camera
-		Intent cameraIntent = new Intent(android.provider.MediaStore.ACTION_IMAGE_CAPTURE);
-		
-		//start this intent, and antipcipate a result.
+		Intent cameraIntent = new Intent(
+				android.provider.MediaStore.ACTION_IMAGE_CAPTURE);
+
+		// start this intent, and antipcipate a result.
 		startActivityForResult(cameraIntent, CAREA_RESULT);
-		
-		
+
 	}
+	@Override
+	protected void onResume() {
+		// TODO Auto-generated method stub
+		super.onResume();
+	}
+	
+	@Override
+	protected void onPause() {
+		// TODO Auto-generated method stub
+		super.onPause();
+	}
+	@Override
+	protected void onStart() {
+		// TODO Auto-generated method stub
+		super.onStart();
+	}
+	
+	 
+	
 
 }

@@ -26,4 +26,18 @@
         android:onClick="searchForPlant"
         android:text="search" />
 
+    <Button
+        android:id="@+id/btnSelectPicture"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:onClick="onSelectAPictureClicked"
+        android:text="Select a Picture" />
+
+    <ImageView
+        android:id="@+id/imgPlantSearch"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_weight="0.88"
+        android:src="@drawable/abc_ab_share_pack_holo_dark" />
+
 </LinearLayout>
